@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Crypto Tracker</h1>
+    <div id="crypto-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#crypto-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin')
+    .then(response => response.json())
+    .then(data => {
+        const cryptoData = data[0];
+        const cryptoContainer = document.getElementById('crypto-container');
+        cryptoContainer.innerHTML = `
+            <h2>Bitcoin (BTC)</h2>
+            <p>Price: $${cryptoData.current_price}</p>
+            <p>Market Cap: $${cryptoData.market_cap}</p>
+        `;
+    })
+    .catch(error => console.error('Error fetching data:', error));
+});
